@@ -1,6 +1,6 @@
 {
   "name": "safe-await",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Safe async/await utility for handling promises without try/catch.",
   "author": "Chelohub Inc. <npm@borislukrece.com>",
   "scripts": {
