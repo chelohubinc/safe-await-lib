@@ -1,14 +1,14 @@
 import { coreSafe } from "./core/safe";
 
 /**
- * `safe` is the core function of the SAFE-AWAIT package.
+ * `safe` is the core function of the SAFE-AWAIT-LIB package.
  *
  * It safely executes any synchronous or asynchronous operation and
  * always returns a predictable tuple instead of throwing errors.
  *
  * ## Basic usage
  * ```ts
- * import safe from "safe-await";
+ * import safe from "safe-await-lib";
  *
  * const [err, data] = await safe(async () => fetchData());
  *

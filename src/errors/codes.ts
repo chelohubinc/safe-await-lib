@@ -1,5 +1,5 @@
 /**
- * Standardized error codes used across the SAFE-AWAIT package.
+ * Standardized error codes used across the SAFE-AWAIT-LIB package.
  *
  * These codes allow consumers to reliably identify the nature
  * of an error without relying on string comparison of messages.
@@ -40,7 +40,7 @@ export type ErrorCode = typeof ERROR_CODES[keyof typeof ERROR_CODES];
  * on Error objects in environments where it is not
  * yet fully supported or typed.
  *
- * This allows SAFE-AWAIT to preserve the original error
+ * This allows SAFE-AWAIT-LIB to preserve the original error
  * while still returning a normalized SafeError object.
  */
 export interface ErrorWithCause extends Error {
