@@ -7,6 +7,9 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
+    "release:patch": "npm version patch && git push origin HEAD --follow-tags",
+    "release:minor": "npm version minor && git push origin HEAD --follow-tags",
+    "release:major": "npm version major && git push origin HEAD --follow-tags",
     "test": "vitest"
   },
   "directories": {
