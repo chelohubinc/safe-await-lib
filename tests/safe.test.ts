@@ -1,4 +1,4 @@
-import { safe } from 'safe-await';
+import { safe } from 'safe-await-lib';
 import { describe, expect, it } from "vitest";
 
 class CustomError extends Error { };
