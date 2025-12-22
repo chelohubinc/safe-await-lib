@@ -1,0 +1,38 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "compilerOptions": {
+        /* Language & Environment */
+        "target": "ES2019",
+        "lib": [
+            "ES2019",
+            "DOM"
+        ],
+        /* Module system */
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        /* Strictness */
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "useUnknownInCatchVariables": true,
+        /* Output (tsup handles emit) */
+        "noEmit": true,
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        /* DX */
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "isolatedModules": true,
+        /* Interop */
+        "esModuleInterop": true,
+        "resolveJsonModule": true
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "dist",
+        "node_modules",
+        "tests"
+    ]
+}

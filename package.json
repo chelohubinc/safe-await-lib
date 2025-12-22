@@ -1,0 +1,52 @@
+{
+  "name": "safe-await",
+  "version": "0.1.0",
+  "description": "Safe async/await utility for handling promises without try/catch.",
+  "author": "Chelohub Inc. <npm@borislukrece.com>",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chelohubinc/safe-await"
+  },
+  "keywords": [
+    "async",
+    "await",
+    "promise",
+    "error-handling",
+    "try-catch",
+    "result",
+    "typescript",
+    "react-native",
+    "expo"
+  ],
+  "license": "ISC",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  }
+}
