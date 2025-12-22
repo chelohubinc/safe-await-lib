@@ -69,4 +69,8 @@ export const safe = Object.assign(coreSafe, {
     // debug,
 });
 
+export type { SafeError, SafeResult, SafeInput } from "./core/type";
+
+export type { ERROR_CODES, ErrorCode, ErrorWithCause } from "./errors/codes";
+
 export default safe;
