@@ -1,19 +1,19 @@
-# SAFE-AWAIT
+# SAFE-AWAIT-LIB
 
-[![Build Status](https://github.com/chelohubinc/safe-await/actions/workflows/ci.yml/badge.svg)](https://github.com/chelohubinc/safe-await/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/safe-await.svg)](https://www.npmjs.com/package/safe-await)
-[![License](https://img.shields.io/npm/l/safe-await.svg)](https://github.com/chelohubinc/safe-await/blob/main/LICENSE)
+[![Build Status](https://github.com/chelohubinc/safe-await-lib/actions/workflows/ci.yml/badge.svg)](https://github.com/chelohubinc/safe-await-lib/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/safe-await-lib.svg)](https://www.npmjs.com/package/safe-await-lib)
+[![License](https://img.shields.io/npm/l/safe-await-lib.svg)](https://github.com/chelohubinc/safe-await-lib/blob/main/LICENSE)
 
 Safe async/await utility for handling promises without try/catch.  
 Designed for **Node.js**, **TypeScript**, **React**, **React Native**, and **Expo**.
 
 ---
 
-## 📌 Why SAFE-AWAIT?
+## 📌 Why SAFE-AWAIT-LIB?
 
 Traditional async/await patterns require `try/catch` blocks, which can clutter code and make error handling inconsistent.  
 
-**SAFE-AWAIT solves this problem by:**
+**SAFE-AWAIT-LIB solves this problem by:**
 
 - Returning a consistent `[SafeError | null, T | null]` tuple for every async operation
 - Normalizing errors into a predictable format
@@ -38,13 +38,13 @@ Traditional async/await patterns require `try/catch` blocks, which can clutter c
 
 ```bash
 # npm
-npm install safe-await
+npm install safe-await-lib
 
 # yarn
-yarn add safe-await
+yarn add safe-await-lib
 
 # pnpm
-pnpm add safe-await
+pnpm add safe-await-lib
 ````
 
 ---
@@ -52,7 +52,7 @@ pnpm add safe-await
 ## ⚡ Basic Usage
 
 ```ts
-import safe from 'safe-await';
+import safe from 'safe-await-lib';
 
 // Async function
 async function fetchData() {
@@ -148,7 +148,7 @@ npm run build
 
 ## 📝 Contributing
 
-SAFE-AWAIT welcomes contributions!
+SAFE-AWAIT-LIB welcomes contributions!
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/your-feature`)
@@ -165,7 +165,7 @@ Please adhere to the existing **TypeScript typings** and **code style**.
   It ensures consistent error handling and makes async code more readable.
 
 - **Can I use this in React Native / Expo?**
-  Yes. SAFE-AWAIT is fully compatible.
+  Yes. SAFE-AWAIT-LIB is fully compatible.
 
 - **How do I handle retries or timeouts?**
   Future modules like `retry` and `withTimeout` will handle these cases cleanly.
@@ -180,5 +180,5 @@ ISC License © Chelohub Inc.
 
 ## 🌐 Links
 
-- **GitHub:** [https://github.com/chelohubinc/safe-await](https://github.com/chelohubinc/safe-await)
-- **NPM:** [https://www.npmjs.com/package/safe-await](https://www.npmjs.com/package/safe-await)
+- **GitHub:** [https://github.com/chelohubinc/safe-await-lib](https://github.com/chelohubinc/safe-await-lib)
+- **NPM:** [https://www.npmjs.com/package/safe-await-lib](https://www.npmjs.com/package/safe-await-lib)

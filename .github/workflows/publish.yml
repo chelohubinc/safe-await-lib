@@ -1,4 +1,4 @@
-name: Publish SAFE-AWAIT
+name: Publish SAFE-AWAIT-LIB
 
 on:
   push:

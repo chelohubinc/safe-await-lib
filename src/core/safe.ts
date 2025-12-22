@@ -2,7 +2,7 @@ import { formatError } from "../errors/formatter";
 import { SafeInput, SafeResult } from "./type";
 
 /**
- * Internal execution engine for SAFE-AWAIT.
+ * Internal execution engine for SAFE-AWAIT-LIB.
  *
  * This function executes a promise or a function safely and converts
  * any thrown or rejected value into a standardized `SafeResult` tuple.

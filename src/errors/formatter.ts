@@ -4,7 +4,7 @@ import { ERROR_CODES, ErrorCode, ErrorWithCause } from './codes';
 /**
  * Normalizes any thrown value into a `SafeError`.
  *
- * This function is the foundation of SAFE-AWAIT's error-handling strategy.
+ * This function is the foundation of SAFE-AWAIT-LIB's error-handling strategy.
  * It guarantees that all errors returned by the library follow the same
  * predictable structure, regardless of what was originally thrown.
  *

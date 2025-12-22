@@ -1,5 +1,5 @@
 /**
- * Standardized error object used throughout the SAFE-AWAIT package.
+ * Standardized error object used throughout the SAFE-AWAIT-LIB package.
  *
  * Every error returned by `safe()` or its extensions follows this shape,
  * ensuring consistent and predictable error handling.
@@ -16,7 +16,7 @@ export interface SafeError {
 }
 
 /**
- * Standard return type for all SAFE-AWAIT operations.
+ * Standard return type for all SAFE-AWAIT-LIB operations.
  *
  * The result is always a tuple:
  * - `[null, T]` when the operation succeeds
