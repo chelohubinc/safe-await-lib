@@ -18,7 +18,6 @@ export async function coreSafe<T>(input: SafeInput<T>): SafeResult<T> {
     try {
         const promise = typeof input === 'function' ? input() : input;
         const data = await promise;
-
         return [null, data];
     } catch (error) {
         return [formatError(error), null];

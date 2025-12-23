@@ -4,33 +4,39 @@
 [![npm version](https://img.shields.io/npm/v/safe-await-lib.svg)](https://www.npmjs.com/package/safe-await-lib)
 [![License](https://img.shields.io/npm/l/safe-await-lib.svg)](https://github.com/chelohubinc/safe-await-lib/blob/main/LICENSE)
 
-Safe async/await utility for handling promises without try/catch.  
+Safe async/await utility for handling promises **without try/catch**.  
 Designed for **Node.js**, **TypeScript**, **React**, **React Native**, and **Expo**.
 
 ---
 
 ## 📌 Why SAFE-AWAIT-LIB?
 
-Traditional async/await patterns require `try/catch` blocks, which can clutter code and make error handling inconsistent.  
+Traditional `async / await` requires repetitive `try/catch` blocks, which:
 
-**SAFE-AWAIT-LIB solves this problem by:**
+- clutter business logic
+- encourage inconsistent error handling
+- hide error intent
 
-- Returning a consistent `[SafeError | null, T | null]` tuple for every async operation
-- Normalizing errors into a predictable format
-- Eliminating boilerplate `try/catch` blocks
-- Making code cleaner, safer, and easier to maintain
+**SAFE-AWAIT-LIB** solves this by enforcing a predictable, explicit error-handling pattern.
+
+### Core idea
+
+> **Async code should never throw — it should return.**
 
 ---
 
-## 🚀 Features
+## 🚀 Features (v0.2.0)
 
 - Safe execution of async functions and promises
-- Standardized error handling with `SafeError` objects
-- Fully TypeScript-typed for modern development
+- Always returns a predictable tuple: `[SafeError | null, T | null]`
+- Standardized error normalization
+- Fully typed with TypeScript
 - Compatible with Node.js, React, React Native, and Expo
-- Supports dual module output (ESM + CJS)
-- Tree-shakable for modern bundlers
-- Future-ready with planned modules: `withTimeout`, `retry`, `all`, `allSettled`, `once`, `strict`, `map`, `unwrap`, `mockSuccess`, `mockError`, `debug`
+- Dual output: **ESM + CJS**
+- Tree-shakable
+- Built-in utilities:
+  - `safe.withTimeout` — timeout control for async operations
+  - `safe.retry` — retry logic for unstable operations
 
 ---
 
@@ -54,121 +60,160 @@ pnpm add safe-await-lib
 ```ts
 import safe from 'safe-await-lib';
 
-// Async function
 async function fetchData() {
-  return Promise.resolve('Hello World!');
+  return 'Hello World';
 }
 
-// Using safe
 const [err, data] = await safe(fetchData);
 
 if (err) {
-  console.error(err.message);
+  console.error(err.message, err.code);
 } else {
-  console.log(data); // 'Hello World!'
+  console.log(data); // "Hello World"
 }
+```
 
-// Direct promise usage
-const [err2, result] = await safe(Promise.resolve(42));
+### Using a direct promise
+
+```ts
+const [err, result] = await safe(Promise.resolve(42));
 ```
 
 ---
 
-## 🛠️ API Overview
+## 🛠️ API
 
-### `safe(input: SafeInput<T>): SafeResult<T>`
+### `safe(input)`
 
-- **input**: `Promise<T>` or `() => T | Promise<T>`
-- **returns**: `[SafeError | null, T | null]`
+```ts
+safe<T>(input: Promise<T> | (() => T | Promise<T>))
+  → Promise<[SafeError | null, T | null]>
+```
 
-### `SafeError` Structure
+---
+
+### `SafeError` structure
 
 ```ts
 interface SafeError {
   message: string;   // Human-readable message
   code: string;      // Standardized error code
-  cause?: unknown;   // Original error or additional context
+  cause?: unknown;   // Original error or context
 }
 ```
 
 ---
 
-## 🌱 Advanced Usage Examples
+## 🌱 Advanced Usage (v0.2.0)
 
-### Handling multiple async operations
-
-```ts
-// Future module: safe.all
-const [err, results] = await safe.all([fetchData(), Promise.resolve(10)]);
-```
-
-### Using retry (planned in v0.2.0)
+### ⏱️ Timeout handling — `safe.withTimeout`
 
 ```ts
-const [err, data] = await safe.retry(() => fetchData(), { attempts: 3, delay: 500 });
+const [err, data] = await safe.withTimeout(fetchData(), 1000);
+
+if (err?.code === 'TIMEOUT_ERROR') {
+  console.error('Operation timed out');
+}
 ```
 
 ---
 
-## 📊 Roadmap
+### 🔁 Retry logic — `safe.retry`
 
-| Version | Features Planned       |
-| ------- | ---------------------- |
-| v0.2.0  | withTimeout, retry     |
-| v0.3.0  | all, allSettled        |
-| v0.4.0  | withContext            |
-| v0.5.0  | once                   |
-| v0.6.0  | strict                 |
-| v0.7.0  | map, unwrap            |
-| v0.8.0  | mockSuccess, mockError |
-| v0.9.0  | debug                  |
+```ts
+const [err, data] = await safe.retry(
+  () => fetchData(),
+  {
+    retries: 3,
+    delayMs: 500,
+    onRetry: (error, attempt) => {
+      console.log(`Retry ${attempt} failed`, error);
+    }
+  }
+);
+
+if (err) {
+  console.error(err.code); // RETRY_FAILED
+}
+```
+
+---
+
+## ✅ Available Today (v0.2.0)
+
+SAFE-AWAIT-LIB currently provides:
+
+- `safe()` — core safe async execution
+- `safe.withTimeout()` — timeout control
+- `safe.retry()` — retry mechanism
+
+More utilities will be added incrementally.
 
 ---
 
 ## 🧪 Development
 
 ```bash
-# Install dev dependencies
+# Install dependencies
 npm install
 
-# Run development build with watch
+# Development build (watch mode)
 npm run dev
 
-# Type check
+# Type checking
 npm run typecheck
 
 # Run tests
 npm test
 
-# Build for distribution
+# Build for production
 npm run build
 ```
 
 ---
 
-## 📝 Contributing
+## 📊 Roadmap
 
-SAFE-AWAIT-LIB welcomes contributions!
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Run tests locally (`npm test`)
-4. Submit a pull request
-
-Please adhere to the existing **TypeScript typings** and **code style**.
+| Version | Features               |
+| ------: | ---------------------- |
+|  v0.2.0 | withTimeout, retry ✅  |
+|  v0.3.0 | all, allSettled        |
+|  v0.4.0 | withContext            |
+|  v0.5.0 | once                   |
+|  v0.6.0 | strict                 |
+|  v0.7.0 | map, unwrap            |
+|  v0.8.0 | mockSuccess, mockError |
+|  v0.9.0 | debug                  |
 
 ---
 
-## ❓ FAQ / Tips
+## 📝 Contributing
 
-- **Why use `[SafeError | null, T | null]` instead of try/catch?**
-  It ensures consistent error handling and makes async code more readable.
+Contributions are welcome.
 
-- **Can I use this in React Native / Expo?**
-  Yes. SAFE-AWAIT-LIB is fully compatible.
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for your changes
+4. Ensure `npm test` passes
+5. Submit a pull request
 
-- **How do I handle retries or timeouts?**
-  Future modules like `retry` and `withTimeout` will handle these cases cleanly.
+Please respect the existing **TypeScript typings** and **error model**.
+
+---
+
+## ❓ FAQ
+
+### Why return a tuple instead of throwing?
+
+It enforces explicit error handling and removes runtime surprises.
+
+### Can I use this in React Native or Expo?
+
+Yes. SAFE-AWAIT-LIB is runtime-agnostic and fully compatible.
+
+### Is this production-ready?
+
+Yes. The core API is stable and versioned.
 
 ---
 
