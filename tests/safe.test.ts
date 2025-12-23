@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 class CustomError extends Error { };
 
-describe('coreSafe / safe()', () => {
+describe('safe()', () => {
     it('should return data for a resolved promise', async () => {
         const [err, data] = await safe(Promise.resolve(42));
         expect(err).toBeNull();
