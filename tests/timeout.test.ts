@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { safe } from 'safe-await-lib';
+import { ERROR_CODES, safe } from 'safe-await-lib';
 
 describe('safe.withTimeout()', () => {
     it('resolves success before timeout', async () => {
@@ -14,7 +14,7 @@ describe('safe.withTimeout()', () => {
         const [err, data] = await safe.withTimeout(fn, 100);
         expect(data).toBeNull();
         expect(err).not.toBeNull();
-        expect(err?.code).toBe('TIMEOUT_ERROR');
+        expect(err?.code).toBe(ERROR_CODES.TIMEOUT);
     });
 
     it('return error if function rejected', async () => {
@@ -36,7 +36,7 @@ describe('safe.withTimeout()', () => {
         const [err, data] = await safe.withTimeout(fn, 0);
         expect(data).toBeNull();
         expect(err).not.toBeNull();
-        expect(err?.code).toBe('TIMEOUT_ERROR');
+        expect(err?.code).toBe(ERROR_CODES.TIMEOUT);
     });
 
 });

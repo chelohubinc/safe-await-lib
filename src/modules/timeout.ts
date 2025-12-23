@@ -1,6 +1,6 @@
 import { ERROR_CODES } from '../errors/codes';
 import { formatError } from '../errors/formatter';
-import { SafeResult } from './../core/type';
+import { SafeInput, SafeResult } from './../core/type';
 
 /**
  * Executes an operation with a time limit.
@@ -18,21 +18,22 @@ import { SafeResult } from './../core/type';
  * ```
  *
  * ## Behavior
- * - Resolves with `[null, result]` if completed in time
- * - Resolves with `[SafeError, null]` on timeout or failure
- * - Never throws
+ * - Resolves with `[null, result]` if the operation completes within the timeout.
+ * - Resolves with `[SafeError, null]` if the operation throws or exceeds the timeout.
+ * - Never throws — always returns `[SafeError | null, T | null]`.
+ * - Use `err?.code === ERROR_CODES.TIMEOUT` to detect timeout errors specifically.
  *
- * @param input A promise or synchronous value
- * @param ms Timeout duration in milliseconds
+ * @param input A promise or a function returning a value or a promise
+ * @param input A promise, a synchronous value, or a function returning a value or a promise
  */
-export async function withTimeout<T>(input: T | Promise<T>, ms: number): SafeResult<T> {
+export async function withTimeout<T>(input: SafeInput<T>, ms: number): SafeResult<T> {
     let timer: ReturnType<typeof setTimeout>;
 
     try {
         const promise = typeof input === 'function' ? input() : input;
 
         const timeoutPromise = new Promise<never>((_, reject) => {
-            timer = setTimeout(() => reject(formatError(new Error(`Timeout after ${ms}ms`), 'TIMEOUT_ERROR')), ms);
+            timer = setTimeout(() => reject(formatError(new Error(`Timeout after ${ms}ms`), ERROR_CODES.TIMEOUT)), ms);
         });
 
         const result = await Promise.race([promise, timeoutPromise]);

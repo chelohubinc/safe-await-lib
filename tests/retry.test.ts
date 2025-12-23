@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { safe } from 'safe-await-lib';
+import { ERROR_CODES, safe } from 'safe-await-lib';
 
 describe('safe.retry()', () => {
     it('succeeds on first attempt', async () => {
@@ -27,7 +27,7 @@ describe('safe.retry()', () => {
         const [err, data] = await safe.retry(fn, { retries: 2 });
         expect(data).toBeNull();
         expect(err).not.toBeNull();
-        expect(err?.code).toContain('RETRY_FAILED');
+        expect(err?.code).toContain(ERROR_CODES.RETRY_FAILED);
     });
 
     it('calls onRetry callback', async () => {
