@@ -5,12 +5,14 @@ import { withTimeout } from "./modules/timeout";
 /**
  * Executes a synchronous or asynchronous operation safely.
  *
- * `safe` wraps any function or promise and always returns a predictable tuple
+ * `safe` wraps any function, promise, or value and always returns a predictable tuple
  * instead of throwing errors.
  *
  * ## Usage
  * ```ts
  * const [err, data] = await safe(() => doSomething());
+ * const [err2, data2] = await safe(fetchData()); // promise directly
+ * const [err3, value] = await safe(42);          // synchronous value
  *
  * if (err) {
  *   console.error(err.code, err.message);
@@ -18,13 +20,13 @@ import { withTimeout } from "./modules/timeout";
  * ```
  *
  * ## Behavior
- * - Never throws
- * - Always resolves
- * - Normalizes all errors into `SafeError`
+ * - Never throws — always returns `[SafeError | null, T | null]`
+ * - Normalizes any thrown or rejected value into a `SafeError`
+ * - Supports promises, synchronous values, or functions returning a value or promise
  *
  * ## Return
  * - `[null, result]` on success
- * - `[SafeError, null]` on failure
+ * - `[SafeError, null]` on failure — use `err.code` to identify the error type
  */
 export const safe = Object.assign(coreSafe, {
     withTimeout,
@@ -62,7 +64,6 @@ export type {
 } from "./core/type";
 
 export type {
-    ERROR_CODES,
     ErrorCode,
     ErrorWithCause
 } from "./errors/codes";
@@ -70,5 +71,7 @@ export type {
 export type {
     RetryOptions
 } from "./modules/retry";
+
+export { ERROR_CODES } from "./errors/codes";
 
 export default safe;

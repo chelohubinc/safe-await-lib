@@ -1,4 +1,5 @@
 import { SafeInput, SafeResult } from "../core/type";
+import { ERROR_CODES } from "../errors/codes";
 import { formatError } from "../errors/formatter";
 
 /**
@@ -41,9 +42,11 @@ function sleep(ms: number) {
  *
  * ## Behavior
  * - Retries the operation up to `retries` times
- * - Optional delay between attempts
- * - Calls `onRetry` after each failure
- * - Returns `RETRY_FAILED` if all attempts fail
+ * - Optional `delayMs` between attempts.
+ * - Invokes `onRetry` after each failed attempt.
+ * - Never throws — always returns `[SafeError | null, T | null]`.
+ * - Returns a `SafeError` with code `RETRY_FAILED` if all attempts fail
+ * - Use `err?.code === ERROR_CODES.RETRY_FAILED` to detect a complete retry failure.
  *
  * @param input A function or promise to retry
  * @param options Retry configuration
@@ -59,8 +62,8 @@ export async function retry<T>(input: SafeInput<T>, options: RetryOptions = {}):
 
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
-            const data = typeof input === 'function' ? (await input()) : (await input);
-            return [null, data];
+            const result = typeof input === 'function' ? await input() : await input;
+            return [null, result];
         } catch (err) {
             lastError = err;
             onRetry?.(err, attempt);
@@ -70,5 +73,5 @@ export async function retry<T>(input: SafeInput<T>, options: RetryOptions = {}):
         }
     }
 
-    return [formatError(lastError, 'RETRY_FAILED'), null];
+    return [formatError(lastError, ERROR_CODES.RETRY_FAILED), null];
 }
