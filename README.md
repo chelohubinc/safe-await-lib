@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/npm/l/safe-await-lib.svg)](https://github.com/chelohubinc/safe-await-lib/blob/main/LICENSE)
 
 Safe async/await utility for handling promises **without try/catch**.  
-Designed for **Node.js**, **TypeScript**, **React**, **React Native**, and **Expo**.
+Designed for **JavaScript and TypeScript environments**.
 
 ---
 
@@ -21,17 +21,17 @@ Traditional `async / await` requires repetitive `try/catch` blocks, which:
 
 ### Core idea
 
-> **Async code should never throw — it should return.**
+> **Async code should never throw — it should return a predictable tuple.**
 
 ---
 
-## 🚀 Features (v0.2.0)
+## 🚀 Features (v0.2.1)
 
-- Safe execution of async functions and promises
+- Safe execution of async functions, promises, or synchronous values
 - Always returns a predictable tuple: `[SafeError | null, T | null]`
 - Standardized error normalization
 - Fully typed with TypeScript
-- Compatible with Node.js, React, React Native, and Expo
+- Compatible with all JavaScript and TypeScript environments
 - Dual output: **ESM + CJS**
 - Tree-shakable
 - Built-in utilities:
@@ -64,19 +64,20 @@ async function fetchData() {
   return 'Hello World';
 }
 
-const [err, data] = await safe(fetchData);
+// Using a function
+const [err, data] = await safe(() => fetchData());
 
 if (err) {
   console.error(err.message, err.code);
 } else {
   console.log(data); // "Hello World"
 }
-```
 
-### Using a direct promise
+// Using a direct promise
+const [err2, result] = await safe(Promise.resolve(42));
 
-```ts
-const [err, result] = await safe(Promise.resolve(42));
+// Using a synchronous value
+const [err3, value] = await safe(10);
 ```
 
 ---
@@ -86,9 +87,20 @@ const [err, result] = await safe(Promise.resolve(42));
 ### `safe(input)`
 
 ```ts
-safe<T>(input: Promise<T> | (() => T | Promise<T>))
+safe<T>(input: Promise<T> | T | (() => T | Promise<T>))
   → Promise<[SafeError | null, T | null]>
 ```
+
+#### Behavior
+
+- Never throws — always returns `[SafeError | null, T | null]`
+- Normalizes any thrown or rejected value into a `SafeError`
+- Supports promises, synchronous values, or functions returning a value or promise
+
+#### Return
+
+- `[null, result]` on success
+- `[SafeError, null]` on failure — use `err.code` to identify the error type
 
 ---
 
@@ -104,7 +116,7 @@ interface SafeError {
 
 ---
 
-## 🌱 Advanced Usage (v0.2.0)
+## 🌱 Advanced Usage (v0.2.1)
 
 ### ⏱️ Timeout handling — `safe.withTimeout`
 
@@ -115,6 +127,13 @@ if (err?.code === 'TIMEOUT_ERROR') {
   console.error('Operation timed out');
 }
 ```
+
+#### Behavior
+
+- Resolves with `[null, result]` if completed within the timeout
+- Resolves with `[SafeError, null]` if the operation throws or exceeds the timeout
+- Never throws — always returns `[SafeError | null, T | null]`
+- Use `err?.code === 'TIMEOUT_ERROR'` to detect timeout errors
 
 ---
 
@@ -137,17 +156,24 @@ if (err) {
 }
 ```
 
+#### Behavior
+
+- Tries the operation up to `retries` times
+- Optional delay between attempts
+- Invokes `onRetry` after each failed attempt
+- Never throws — always returns `[SafeError | null, T | null]`
+- Returns a `SafeError` with code `RETRY_FAILED` if all attempts fail
+- Use `err?.code === 'RETRY_FAILED'` to detect a complete retry failure
+
 ---
 
-## ✅ Available Today (v0.2.0)
-
-SAFE-AWAIT-LIB currently provides:
+## ✅ Available Today (v0.2.1)
 
 - `safe()` — core safe async execution
 - `safe.withTimeout()` — timeout control
 - `safe.retry()` — retry mechanism
 
-More utilities will be added incrementally.
+More utilities will be added incrementally according to the roadmap.
 
 ---
 
@@ -176,7 +202,7 @@ npm run build
 
 | Version | Features               |
 | ------: | ---------------------- |
-|  v0.2.0 | withTimeout, retry ✅  |
+|  v0.2.0 | withTimeout, retry ✅   |
 |  v0.3.0 | all, allSettled        |
 |  v0.4.0 | withContext            |
 |  v0.5.0 | once                   |
@@ -207,7 +233,7 @@ Please respect the existing **TypeScript typings** and **error model**.
 
 It enforces explicit error handling and removes runtime surprises.
 
-### Can I use this in React Native or Expo?
+### Can I use this in browser, Node.js, or other JS environments?
 
 Yes. SAFE-AWAIT-LIB is runtime-agnostic and fully compatible.
 
