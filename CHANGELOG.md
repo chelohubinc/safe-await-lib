@@ -7,9 +7,22 @@ and the format is inspired by [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
+## [0.2.1] - 2025-12-23
+
+### 🧠 Improved
+
+- Enhanced documentation for `coreSafe`, `withTimeout`, and `retry` for clearer usage examples and behavior
+- Standardized error handling across all core functions with `SafeError`
+- Added support for synchronous values in `coreSafe`, `withTimeout`, and `retry`
+- Updated tests to reference `ERROR_CODES`
+- Fixed export: `ERROR_CODES` now exported as a value instead of a type
+
+---
+
 ## [0.2.0] - 2025-12-23
 
 ### ✨ Added
+
 - `safe.withTimeout(input, ms)`
   - Safely executes an async operation with a timeout
   - Returns a standardized `SafeError` with code `TIMEOUT_ERROR` on timeout
@@ -19,6 +32,7 @@ and the format is inspired by [Keep a Changelog](https://keepachangelog.com/).
   - Returns `RETRY_FAILED` error code when all attempts fail
 
 ### 🧠 Improved
+
 - Clearer error normalization across timeout and retry modules
 - Better alignment between runtime behavior and TypeScript typings
 
@@ -27,6 +41,7 @@ and the format is inspired by [Keep a Changelog](https://keepachangelog.com/).
 ## [0.1.4] - 2025-12-21
 
 ### ✨ Added
+
 - Named exports for internal types and utilities
   - Exported `SafeError`
   - Exported shared TypeScript types
@@ -37,6 +52,7 @@ and the format is inspired by [Keep a Changelog](https://keepachangelog.com/).
 ## [0.1.3] - 2025-12-21
 
 ### 🐛 Fixed
+
 - Package naming and repository normalization
 - Corrected npm publishing configuration
 - Improved build output consistency (ESM + CJS)
@@ -46,8 +62,8 @@ and the format is inspired by [Keep a Changelog](https://keepachangelog.com/).
 ## [0.1.2] - 2025-12-21
 
 ### 🎉 Initial Release
+
 - Core `safe()` function
 - Standardized `SafeError` format
 - Full TypeScript support
 - Dual module output (ESM + CJS)
-
